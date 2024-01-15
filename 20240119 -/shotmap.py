@@ -98,7 +98,7 @@ source = axs['title'].text(
     alpha=0.7,
 )
 
-plt.savefig('filename.png',
+plt.savefig('20240119_viz.png',
             bbox_inches='tight',
             dpi=250
             )
