@@ -132,22 +132,34 @@ pitch.scatter(
     # facecolor='#ef4146',
     zorder=2,
 )
-# ------------------------------------------------- Add Passes In Own Half
-pdf = df[df['Event'] == 'Pass']
+# ------------------------------------------------ Fig2: Passes from Defenders
+defenders = ['3 Loor', '2 Castro', '54 Hurt']
+
+# Get team total passes
+team_total = len(df[(df['Event'] == 'Pass') | (df['Event'] == 'Failed Pass')])
+print(team_total)
+
+team_completed = len(df[(df['Event'] == 'Pass')])
+print(team_completed)
+
+# Get values
+tdf = df[(df['Event'] == 'Pass') | (df['Event'] == 'Failed Pass')]
+tdf = tdf[tdf['Player'].isin(defenders)]
+def_total = len(tdf)
+print(def_total)
+
+# # Successful Passes
+pdf = df[(df['Event'] == 'Pass')]
 # pdf = pdf[(pdf['X'] < 50) & (pdf['X2'] < 50)]
-pdf = pdf[(pdf['Player'] == '3 Loor') |
-          (pdf['Player'] == '2 Castro') |
-          (pdf['Player'] == '54 Hurt')
-]
+pdf = pdf[pdf['Player'].isin(defenders)]
+def_completed = len(pdf)
+print(def_completed)
 
 xstart, ystart = standard.transform(pdf['X'], pdf['Y'])
 xend, yend = standard.transform(pdf['X2'], pdf['Y2'])
 
 pitch.lines(
-    xstart=xstart,
-    ystart=ystart,
-    xend=xend,
-    yend=yend,
+    xstart=xstart, ystart=ystart, xend=xend, yend=yend,
     ax=axs['pitch'][1],
     lw=3,
     color=event1_marker_color1,
@@ -157,13 +169,38 @@ pitch.lines(
     alpha_end=line_alpha_end,
 )
 
-pitch.scatter(
-    x=xend,
-    y=yend,
+pitch.scatter(x=xend, y=yend,
     ax=axs['pitch'][1],
     s=event_marker_width,
     marker='o',
     facecolor=event1_marker_color1,
+    # facecolor='#ef4146',
+    zorder=2,
+)
+
+# Failed Passes
+pdf = df[df['Event'] == 'Failed Pass']
+pdf = pdf[pdf['Player'].isin(defenders)]
+
+xstart, ystart = standard.transform(pdf['X'], pdf['Y'])
+xend, yend = standard.transform(pdf['X2'], pdf['Y2'])
+
+pitch.lines(
+    xstart=xstart, ystart=ystart, xend=xend, yend=yend,
+    ax=axs['pitch'][1],
+    lw=3,
+    color=event2_marker_color1,
+    comet=True,
+    transparent=True,
+    alpha_start=line_alpha_start,
+    alpha_end=line_alpha_end,
+)
+
+pitch.scatter(x=xend, y=yend,
+    ax=axs['pitch'][1],
+    s=event_marker_width,
+    marker='o',
+    facecolor=event2_marker_color1,
     # facecolor='#ef4146',
     zorder=2,
 )
