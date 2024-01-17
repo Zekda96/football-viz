@@ -404,20 +404,31 @@ axsRight[0].text(
 
 
 # --------------------------------------------- Fig 4. Passes into Penalty Box
-axsRight[1].set_title('Pases al Area Rival', fontsize=fig_fontsize)
+axsRight[1].set_title('Pases en Último Tercio', fontsize=fig_fontsize)
+
+y, _ = standard.transform([2 / 3 * 100], [0])
+axsRight[1].hlines(
+    y=y,
+    xmin=-3,
+    xmax=83,
+    colors='black',
+    linestyles='dashed',
+    alpha=0.3,
+    clip_on=False,
+    zorder=-1,
+)
 
 sb_to_op = Standardizer(pitch_from='statsbomb', pitch_to='opta')
 endx, endy = sb_to_op.transform([102, 102], [18, 62])
 
-# Successful Passes
+# Passes on Final 3rd
 pdf = df[df['Event'] == 'Pass']
-pdf = pdf[
-    (
-            (pdf['X2'] >= endx[0])
-            & (pdf['Y2'] >= endy[1])
-            & (pdf['Y2'] <= endy[0])
-    )
-]
+pdf = pdf[(pdf['X'] > (2/3*100)) & (pdf['X2'] > (2/3*100))]
+completed = len(pdf)
+
+# Get data
+# val1 = np.round(completed/team_completed * 100, 1)
+# axsRight[1].text(x=8, y=65, s=f'{val1}% de los Pases Totales')
 
 xstart, ystart = standard.transform(pdf['X'], pdf['Y'])
 xend, yend = standard.transform(pdf['X2'], pdf['Y2'])
