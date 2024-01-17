@@ -12,7 +12,7 @@ invert_first_half = False
 # ----------------------------------- Text
 bg_color = '#faf9f4'
 # Title
-x_title = 0.16
+x_title = 0.155
 y_title = 0.85
 spacing = 0.43  # title to subtitle space
 
@@ -62,7 +62,7 @@ fig.patch.set_facecolor('#faf9f4')
 
 ax_title = fig.add_axes([0, 1.05, 1, 0.2], anchor='SW', zorder=1)
 ax_title.axis('off')
-ax_annotate = fig.add_axes([0, -0.14, 1, 0.125], anchor='NW', zorder=1)
+ax_annotate = fig.add_axes([0, -0.16, 1, 0.125], anchor='NW', zorder=1)
 ax_annotate.axis('off')
 
 subfigs = fig.subfigures(1, 2, wspace=0.07, width_ratios=[6, 3])
@@ -159,14 +159,14 @@ final_completed = len(pdf)
 xval = 40
 yval = -13
 axsLeft[0].text(x=xval, y=yval,
-                s=f'{final_completed} Pases Completados',
+                s=f'{final_completed} Completados',
                 c=event1_marker_color1,
                 ha='center',
                 weight='bold',
                 )
 
 axsLeft[0].text(x=xval, y=yval-6,
-                s=f'{final_failed} Pases Fallados',
+                s=f'{final_failed} Fallados',
                 c=event2_marker_color1,
                 ha='center',
                 weight='bold',
@@ -275,14 +275,14 @@ xval = 40
 # yval = 80
 yval = -13
 axsLeft[1].text(x=xval, y=yval,
-                s=f'{def_completed} Pases Completados',
+                s=f'{def_completed} Completados',
                 c=event1_marker_color1,
                 ha='center',
                 weight='bold',
                 )
 
 axsLeft[1].text(x=xval, y=yval-6,
-                s=f'{def_total-def_completed} Pases Fallados',
+                s=f'{def_total-def_completed} Fallados',
                 c=event2_marker_color1,
                 ha='center',
                 weight='bold',
@@ -492,7 +492,7 @@ if failed:
 
 # Add team logo
 image = Image.open('data/20240119_logo.png')
-newax = fig.add_axes([0.06, 1.06, 0.18, 0.18], anchor='W', zorder=1)
+newax = fig.add_axes([0.0475, 1.06, 0.18, 0.18], anchor='W', zorder=1)
 newax.imshow(image)
 newax.axis('off')
 
@@ -577,6 +577,19 @@ source = ax_annotate.text(
     color='#030303',
     alpha=0.7,
 )
+
+# Add Social Media logo
+y = -0.163
+x = 0.832
+image = Image.open('data/tw.png')
+newax = fig.add_axes([x, y, 0.045, 0.045], anchor='SW', zorder=0)
+newax.imshow(image)
+newax.axis('off')
+
+image = Image.open('data/ig.png')
+newax = fig.add_axes([x-0.03, y-0.012, 0.07, 0.07], anchor='SW', zorder=0)
+newax.imshow(image)
+newax.axis('off')
 
 plt.savefig('20240119_viz.png',
             bbox_inches='tight',
