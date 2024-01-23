@@ -1,6 +1,6 @@
 # Daniel Granja C.
-[[Twitter]](www.twitter.com/DanielGranjaC)
-### Analisis y Visualización de Datos ⚽
+[[Twitter]](https://twitter.com/DGCFutbol)
+## Analisis y Visualización de Datos ⚽
 
 Este es una recopilacion de mis trabajos y el codigo para generarlos. Tales como:
 1. Perfil de Equipo - Reportes que nos ayudan a identificar las estrategias implementadas y su efectividad.
