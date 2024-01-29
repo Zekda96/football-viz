@@ -3,8 +3,8 @@ Home,19 Porozo,Pass,6,33,40,41,26,26
 Home,3 Loor,Pass Received,6,33,26,26,-,-
 Home,3 Loor,Pass,6,36,29,26,43,40
 Home,15 Cmch,Pass Received,6,36,43,40,-,-
-Home,15 Cmch,Pass,6,36,44,39,53,33
-Home,10 Cbzs,Pass Received,6,36,53,33,-,-
+Home,15 Cmch,Pass,6,37,44,39,53,33
+Home,10 Cbzs,Pass Received,6,37,53,33,-,-
 Home,10 Cbzs,Pass,6,43,55,38,79,94
 Home,52 Mndz,Pass Received,6,43,79,94,-,-
 Home,2 Castro,Pass,7,10,77,88,58,89
@@ -15,8 +15,8 @@ Home,3 Loor,Pass,7,17,50,50,48,62
 Home,54 Hurt,Pass Received,7,17,48,62,-,-
 Home,54 Hurt,Pass,7,19,51,64,59,57
 Home,2 Castro,Pass Received,7,19,59,57,-,-
-Home,2 Castro,Pass,7,19,57,59,48,43
-Home,3 Loor,Pass Received,7,19,48,43,-,-
+Home,2 Castro,Pass,7,20,57,59,48,43
+Home,3 Loor,Pass Received,7,20,48,43,-,-
 Home,3 Loor,Failed Pass,7,24,52,50,77,12
 Home,15 Cmch,Pass,7,29,55,27,55,49
 Home,2 Castro,Pass Received,7,30,55,50,-,-
@@ -50,8 +50,8 @@ Home,10 Cbzs,Pass Received,9,59,79,98,-,-
 Home,10 Cbzs,Pass,10,3,76,97,47,91
 Home,54 Hurt,Pass Received,10,3,47,91,-,-
 Home,54 Hurt,Pass,10,7,37,81,15,58
-Home,1 ,Pass Received,10,7,15,57,-,-
-Home,1 ,Pass,10,13,20,57,21,39
+Home,1,Pass Received,10,7,15,57,-,-
+Home,1,Pass,10,13,20,57,21,39
 Home,2 Castro,Pass Received,10,13,21,39,-,-
 Home,2 Castro,Pass,10,19,23,39,22,64
 Home,54 Hurt,Pass Received,10,19,21,64,-,-
@@ -88,7 +88,6 @@ Home,15 Cmch,Pass,13,30,53,39,55,31
 Home,2 Castro,Pass Received,13,30,55,31,-,-
 Home,2 Castro,Pass,13,31,55,30,65,36
 Home,7 Qntrs,Pass Received,13,31,65,36,-,-
-Home,7 Qntrs,Shot,13,34,71,47,-,-
 Home,15 Cmch,Pass,14,4,24,47,32,48
 Home,19 Porozo,Pass Received,14,4,32,48,-,-
 Home,19 Porozo,Pass,14,9,32,48,35,17
@@ -98,8 +97,8 @@ Home,3 Loor,Pass Received,14,12,22,22,-,-
 Home,3 Loor,Pass,14,15,22,24,23,49
 Home,54 Hurt,Pass Received,14,15,22,48,-,-
 Home,54 Hurt,Pass,14,22,28,66,15,49
-Home,1 ,Pass Received,14,22,15,49,-,-
-Home,1 ,Pass,14,25,17,49,26,26
+Home,1,Pass Received,14,22,15,49,-,-
+Home,1,Pass,14,25,17,49,26,26
 Home,3 Loor,Pass Received,14,25,26,26,-,-
 Home,3 Loor,Pass,14,29,29,25,54,36
 Home,7 Qntrs,Pass Received,14,29,54,36,-,-
@@ -117,11 +116,11 @@ Home,52 Mndz,Pass,15,1,76,98,85,79
 Home,19 Porozo,Pass Received,15,1,85,78,-,-
 Home,19 Porozo,Pass,15,3,87,74,85,54
 Home,11 Mlna,Pass Received,15,3,85,54,-,-
-Home,11 Mlna,Pass,15,3,86,55,85,69
-Home,52 Mndz,Pass Received,15,3,85,70,-,-
+Home,11 Mlna,Pass,15,4,86,55,85,69
+Home,52 Mndz,Pass Received,15,4,85,70,-,-
 Home,52 Mndz,Pass,15,5,85,70,88,57
 Home,11 Mlna,Pass Received,15,5,88,57,-,-
-Home,1 ,Pass,15,29,13,49,21,56
+Home,1,Pass,15,29,13,49,21,56
 Home,2 Castro,Pass Received,15,29,21,56,-,-
 Home,2 Castro,Pass,15,33,34,41,39,7
 Home,59 Vldz,Pass Received,15,33,39,7,-,-
@@ -176,15 +175,14 @@ Home,59 Vldz,Pass,21,26,68,3,82,47
 Home,11 Mlna,Pass Received,21,26,82,47,-,-
 Home,11 Mlna,Pass,21,28,81,47,77,64
 Home,52 Mndz,Pass Received,21,28,77,64,-,-
-Home,52 Mndz,Pass,21,28,76,64,70,49
-Home,19 Porozo,Pass Received,21,28,70,49,-,-
+Home,52 Mndz,Pass,21,29,76,64,70,49
+Home,19 Porozo,Pass Received,21,29,70,49,-,-
 Home,19 Porozo,Failed Pass,21,31,70,49,84,37
 Home,2 Castro,Pass,22,17,23,56,23,26
 Home,3 Loor,Pass Received,22,17,23,26,-,-
 Home,3 Loor,Pass,22,23,24,26,25,54
 Home,2 Castro,Pass Received,22,23,25,54,-,-
 Home,2 Castro,Pass,22,27,29,50,30,76
-Home,54 Hurt,Pass Received,22,27,30,75,-,-
 Home,54 Hurt,Pass Received,22,27,30,76,-,-
 Home,54 Hurt,Pass,22,29,32,76,39,52
 Home,15 Cmch,Pass Received,22,29,39,52,-,-
@@ -547,9 +545,9 @@ Home,13 Dlgd,Pass,89,32,43,7,37,3
 Home,5 Esbin,Pass Received,89,32,37,3,-,-
 Home,5 Esbin,Pass,89,35,34,3,13,36
 Home,9 Jama,Pass Received,89,35,13,36,-,-
-Home,10 Cbzs,Pass Received,89,41,5,55,-,-
+Home,10 Cbzs,Pass Received,89,41,1,55,-,-
 Home,10 Cbzs,Goal,89,41,5,55,0,52
-Home,10 Cbzs,Assist,89,41,1,31,5,55
+Home,9 Jama,Assist,89,41,1,31,5,55
 Home,5 Esbin,Pass,90,26,60,59,69,34
 Home,2 Castro,Pass Received,90,26,69,33,-,-
 Home,2 Castro,Pass,90,28,69,32,73,48
@@ -707,7 +705,7 @@ Home,10 Cbzs,Pass,103,9,35,35,31,30
 Home,52 Mndz,Pass Received,103,9,31,30,-,-
 Home,52 Mndz,Shot,103,13,18,31,0,44
 Home,56 Cruz,Pass,104,12,36,27,37,57
-Home,3 Loor,Pass Received,104,11,37,57,-,-
+Home,3 Loor,Pass Received,104,12,37,57,-,-
 Home,3 Loor,Failed Pass,104,15,37,58,15,76
 Home,56 Cruz,Pass,104,20,32,51,47,57
 Home,59 Vldz,Pass Received,104,20,47,56,-,-
