@@ -234,7 +234,7 @@ for pl1 in player_list:
             )
 # ------------------------------------------------ 2. Average Passing Location
 # Path effects
-path_eff = [patheffects.Stroke(linewidth=3, foreground='black'),
+path_eff = [patheffects.Stroke(linewidth=2, foreground='black'),
             patheffects.Normal()]
 
 for i, pl in enumerate(player_list):
@@ -243,14 +243,14 @@ for i, pl in enumerate(player_list):
     # With 10% of total team passes, marker size will be s1 which is average
     r = (passes[pl]['Total'] / total_passes)
 
-    th1 = 1
-    s1 = 900
+    th1 = -0.4
+    s1 = 400
 
-    th2 = 0.45
-    s2 = 16
+    th2 = 0.7
+    s2 = 9
 
-    marker_s = s1 * (1 - th1) + ((s1 * th1) * r * 10)
-    text_s = s2 * (1 - th2) + ((s2 * th2) * r * 10)
+    marker_s = (s1 * th1) + (10 * r * s1 * (1-th1))
+    text_s = (s2 * th2) + (10 * r * s2 * (1-th2))
 
     # Player Icons
     pitch.scatter(
@@ -259,12 +259,11 @@ for i, pl in enumerate(player_list):
         ax=axsTop,
         s=marker_s,
         marker='o',
-
         facecolor=base_color,
         # facecolor='crimson',
         # facecolor='#ef4146',
         edgecolors='black',
-        linewidths=2,
+        linewidths=1,
         # alpha=0.5,
         zorder=2,
     )
@@ -280,17 +279,6 @@ for i, pl in enumerate(player_list):
         va='center',
         path_effects=path_eff,
     )
-
-    # # Player Names List
-    # axsTop.text(
-    #     x=122,
-    #     y=0.5 + (i * 5.5),
-    #     s=pl,
-    #     size=17,
-    #     c='black',
-    #     ha='left',
-    #     va='top',
-    # )
 
 # --------------------------------------------------------- 3. PLAYERS HEATMAP
 players_pitch = Pitch(
@@ -357,7 +345,7 @@ newax.axis('off')
 title = ax_title.text(
     x=0.5,
     y=0.8,
-    s='La Concordia SC - Ascenso Nacional 2023',
+    s='DT Jonathan Mendoza - La Concordia SC',
     size=24,
     ha='center',
     va='top',
@@ -367,11 +355,12 @@ title = ax_title.text(
 subtitle = ax_title.text(
     x=0.5,
     y=0.4,
-    s='Victoria 4-1 vs. Japan Auto',
+    s='Victoria 4-1 vs. Japan Auto  - Ascenso Nacional 2023',
     size=18,
     ha='center',
     va='top',
-    # weight='bold',
+    color="#030303",
+    alpha=0.6,
 )
 # ----------------------------------------------------------------- Add Credits
 # Source label
