@@ -177,8 +177,9 @@ pitch.draw(ax=axsTop)
 axsTop.set_facecolor(bg_color)
 
 # Add Arrow
-dx = 0.3
-l1 = FancyArrow(x=0.75 - dx/2, y=0.08, dx=dx, dy=0,
+x = 0.6
+y = 0.08
+l1 = FancyArrow(x=0.6, y=0.08, dx=0.33, dy=0,
                 transform=axsTop.transAxes,
                 figure=fig,
                 length_includes_head=True,
@@ -190,10 +191,10 @@ l1 = FancyArrow(x=0.75 - dx/2, y=0.08, dx=dx, dy=0,
 
 subfigs[0].lines.extend([l1])
 
-axsTop.text(x=90, y=76,
+axsTop.text(x=120*x+1, y=80*(1-y)+2,
             s='Dirección de Ataque',
-            ha='center',
-            size='10.5',
+            ha='left',
+            size='12',
             )
 
 # -------------------------------------------------------------- 1. Pass Lines
@@ -234,7 +235,7 @@ for pl1 in player_list:
             )
 # ------------------------------------------------ 2. Average Passing Location
 # Path effects
-path_eff = [patheffects.Stroke(linewidth=2, foreground='black'),
+path_eff = [patheffects.Stroke(linewidth=1.5, foreground='black'),
             patheffects.Normal()]
 
 for i, pl in enumerate(player_list):
@@ -246,8 +247,8 @@ for i, pl in enumerate(player_list):
     th1 = -0.4
     s1 = 400
 
-    th2 = 0.7
-    s2 = 9
+    th2 = 0.4
+    s2 = 10
 
     marker_s = (s1 * th1) + (10 * r * s1 * (1-th1))
     text_s = (s2 * th2) + (10 * r * s2 * (1-th2))
@@ -321,6 +322,22 @@ for axes in [axsMiddle, axsBot]:
             # cmap='Oranges',
             # cmap=ccmap,
         )
+
+        players_pitch.scatter(
+            x=xstart,
+            y=ystart,
+            ax=ax,
+            s=14,
+            marker='o',
+            facecolor='white',
+            # facecolor='crimson',
+            # facecolor='#ef4146',
+            edgecolors='black',
+            linewidths=1,
+            # alpha=0.5,
+            zorder=2,
+        )
+
         ax.set_title(f'{pl.split()[0]}. {pl.split()[1]}', size=15)
         c += 1
 
