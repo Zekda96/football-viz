@@ -111,9 +111,6 @@ plt.setp(list(ax.spines.values())[2], color=x_color)
 plt.setp(list(ax.spines.values())[1], color=bg_color)
 plt.setp(list(ax.spines.values())[3], color=bg_color)
 
-
-
-
 plt.scatter(
     x=x,
     y=y,
@@ -123,14 +120,22 @@ plt.gca().invert_yaxis()
 
 # Add Team Labels
 # for i, txt in enumerate(xgp90.index.to_list()):
-xoff = [0.022, 0.022]
-yoff = [0.012, -0.0055]
-offset_teams = ['Emelec', 'Deportivo Cuenca']
-for i, txt in enumerate(offset_teams):
-    id = xgp90.index.to_list().index(txt)
-    plt.annotate(txt, (x[id]+xoff[i], y[id] + yoff[i]))
+xoff = [
+    # 0.027,
+    -0.18
+]
+yoff = [
+    # 0.012,
+    -0.009
+]
+# offset_teams = ['Deportivo Cuenca']
+# for i, txt in enumerate(offset_teams):
+#     id = xgp90.index.to_list().index(txt)
+#     if txt == 'Deportivo Cuenca':
+#         txt = 'D. Cuenca'
+#     plt.annotate(txt, (x[id]+xoff[i], y[id] + yoff[i]))
 
-# --------------- TODO: Add team logos
+# ---------------------------------------------------------------- Team logos
 
 logos = {'Aucas': 'au',
          'Deportivo Cuenca': 'dc',
@@ -155,20 +160,36 @@ FC_to_NFC = fig.transFigure.inverted().transform
 # -- Take data coordinates and transform them to normalized figure coordinates
 DC_to_NFC = lambda x: FC_to_NFC(DC_to_FC(x))
 
-ax_size = 0.063
 
 for i, (x, y) in enumerate(zip(x, y)):
+    ax_size = 0.067
     team_name = xgp90.index.to_list()[i]
-    if team_name not in ["Emelec", "Deportivo Cuenca"]:
-        ax_coords = DC_to_NFC((x, y))
-        newax = fig.add_axes(
-            [ax_coords[0] - ax_size/2, ax_coords[1] - ax_size/2, ax_size, ax_size],
-            fc='None'
-        )
-        image = Image.open(f"data/{logos[team_name]}.png")
-        newax.imshow(image)
-        newax.axis('off')
+    # if team_name == "Emelec":
+    #     x += 0.045
+    # if team_name == "Deportivo Cuenca":
+    #     x -= 0.045
+    ax_coords = DC_to_NFC((x, y))
+    newax = fig.add_axes(
+        [ax_coords[0] - ax_size/2, ax_coords[1] - ax_size/2, ax_size, ax_size],
+        fc='None'
+    )
+    image = Image.open(f"data/{logos[team_name]}.png")
+    newax.imshow(image)
+    newax.axis('off')
 
+
+# LIGA PRO LOGO
+ax_coords = [0.28, 0.95]
+ax_size = 0.1
+image = Image.open('data/lp.png')
+newax = fig.add_axes(
+    [ax_coords[0]-ax_size/2, ax_coords[1]-ax_size/2, ax_size, ax_size],
+    anchor='W', zorder=1
+)
+newax.imshow(image)
+newax.axis('off')
+
+# Save
 plt.savefig('ligapro_xg.png',
             bbox_inches='tight',
             dpi=250
