@@ -169,7 +169,7 @@ for i, (x, y) in enumerate(zip(x, y)):
         newax.imshow(image)
         newax.axis('off')
 
-plt.savefig('data/ligapro_xg.png',
+plt.savefig('ligapro_xg.png',
             bbox_inches='tight',
             dpi=250
             )
