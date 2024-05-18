@@ -6,6 +6,7 @@ from mplsoccer import Pitch, VerticalPitch, Standardizer
 
 import matplotlib.pyplot as plt
 from matplotlib.colors import LinearSegmentedColormap
+from matplotlib import rcParams
 
 
 
@@ -123,10 +124,16 @@ def filter_passes_to_box(df: pd.DataFrame, team: str):
     return pdf
     
 
-def add_box_passes(pitch, ax, df):
+def add_box_passes(pitch: Pitch, ax: plt.axis, df, flip):
   
     standard = Standardizer(pitch_from='opta', pitch_to='statsbomb')
-
+    ax.set_title("Pases al area",
+                 c="white",
+                 fontsize=13
+                 )
+    
+    size = rcParams['lines.markersize'] ** 1.7
+    
     ### FAILED PASSES
     color = '#c1c1bf'
     failed = df['outcome'] == 0
@@ -134,6 +141,10 @@ def add_box_passes(pitch, ax, df):
     x, y = standard.transform(df['x'][failed], df['y'][failed])
     xend, yend = standard.transform(df["Pass End X"][failed], df["Pass End Y"][failed])
 
+    if flip:
+        x, y = pitch.flip_side(x, y, [True]*len(x))
+        xend, yend = pitch.flip_side(xend, yend, [True]*len(xend))
+    
     ev1 = pitch.lines(
         xstart=x,
         ystart=y,
@@ -145,9 +156,12 @@ def add_box_passes(pitch, ax, df):
         ax=ax,
         alpha_start=0.1,
         alpha_end=0.3,
+        zorder=1
                 )
-
-    ev2 = pitch.scatter(x=xend, y=yend, ax=ax,linewidth=0, color='#c1c1bf')
+    
+    ev2 = pitch.scatter(x=xend, y=yend,
+                        s=size,
+                        ax=ax,linewidth=1, color='#c1c1bf', zorder=0)
 
     ### SUCCESSFULL PASSES
     color = "green"
@@ -156,6 +170,10 @@ def add_box_passes(pitch, ax, df):
     x, y = standard.transform(df['x'][success], df['y'][success])
     xend, yend = standard.transform(df["Pass End X"][success], df["Pass End Y"][success])
 
+    if flip:
+        x, y = pitch.flip_side(x, y, [True]*len(x))
+        xend, yend = pitch.flip_side(xend, yend, [True]*len(xend))
+    
     ev1 = pitch.lines(
         xstart=x,
         ystart=y,
@@ -167,12 +185,16 @@ def add_box_passes(pitch, ax, df):
         ax=ax,
         alpha_start=0.1,
         alpha_end=0.3,
+        zorder=2
                 )
 
-    ev2 = pitch.scatter(x=xend, y=yend, ax=ax,linewidth=0, color=color)
+    ev2 = pitch.scatter(x=xend, y=yend,
+                        s=size,
+                        zorder=2,
+                        ax=ax,linewidth=0, color=color)
 
 
-def add_box_heatmap(pitch, ax, df):
+def add_box_heatmap(pitch, ax, df, flip):
 
     standard = Standardizer(pitch_from='opta', pitch_to='statsbomb')
 
@@ -196,6 +218,9 @@ def add_box_heatmap(pitch, ax, df):
 
     # Transform values
     xstart, ystart = standard.transform(df['x'], df['y'])
+    
+    if flip:
+        xstart, ystart = pitch.flip_side(xstart, ystart, [True]*len(xstart))
 
     # Count passes per zone
     bin_statistic = pitch.bin_statistic(xstart, ystart,
@@ -207,7 +232,7 @@ def add_box_heatmap(pitch, ax, df):
     # clist = custom_cmap(event1_marker_color1)
     # Original hand-picked colors
     clist = ['#FFF1DB', '#FFE9CE', '#de9314', '#99610F']
-    clist = ["#38383b", "red"]
+    clist = [bg_color, "#03A9F4"]
 
     # Custom color map
     ccmap = LinearSegmentedColormap.from_list("custom", clist)
@@ -218,13 +243,131 @@ def add_box_heatmap(pitch, ax, df):
                     ax=ax,
                     cmap=ccmap,
                     # edgecolor='#03191E',
-                    edgecolor='blue',
+                    # edgecolor='blue',
                     alpha=0.5,
                     zorder=0,
                     linestyle=(0, (5,10))
                         )
 
 
+def add_def_actions(df, pitch: Pitch, axs: list, c: str):
+    """_summary_
+
+    Args:
+        df (_type_): _description_
+        pitch (_type_): _description_
+        axs (list): _description_
+    """
+    
+    standard = Standardizer(pitch_from="opta", pitch_to="statsbomb")
+
+    # BINS FOR HEATMAP
+    bin_x = np.sort(np.array([pitch.dim.left,
+                                pitch.dim.penalty_area_left,
+                                pitch.dim.penalty_area_left + 21,
+                                pitch.dim.length/2,
+                                pitch.dim.length/2 + 21,
+                                pitch.dim.penalty_area_right,
+                                pitch.dim.right
+                                ]))
+
+    bin_y = np.sort(np.array([pitch.dim.bottom,
+                                pitch.dim.penalty_area_bottom,
+                                pitch.dim.six_yard_bottom,
+                                pitch.dim.six_yard_top,
+                                pitch.dim.penalty_area_top,
+                                pitch.dim.top
+                                ]))
+    max = 0
+    
+    stat = [
+        "Interception"
+        "Ball recovery",
+        "Clearance",
+        "Foul",
+        "Aerial",
+        "Tackle",
+        "Challenge",
+        "Offside provoked"
+        ]
+    
+    for i, team in enumerate(df.team.unique()):
+        ax = axs[i]
+        ax.set_title(
+            label="Acciones defensivas",
+            c="white"
+                     )
+        
+        #Data
+        pdf = df[df["team"] == team]
+        pdf = pdf[pdf["event"] == "Clearance"]
+        
+        # Transform values
+        x, y = standard.transform(pdf.x, pdf.y)
+
+        # Get max events per zone
+        new_max = pitch.bin_statistic(x, y, statistic='count', bins=(bin_x, bin_y))["statistic"].max()
+        max = new_max if new_max > max else max
+    
+    # Loop for drawing on pitch
+    for i, team in enumerate(df.team.unique()):
+        flip = False if i==0 else True
+        ax = axs[i]
+        #Data
+        pdf = df[df["team"] == team]
+        pdf = pdf[pdf["event"].isin(stat)]
+        # Transform values
+        x, y = standard.transform(pdf['x'], pdf['y'])
+        
+        if flip:
+            x, y = pitch.flip_side(x, y, [True] * len(x))
+
+        # Count events per zone
+        bin_statistic = pitch.bin_statistic(x, y,
+                                                statistic='count',
+                                                bins=(bin_x, bin_y)
+                                                )
+        
+        clist = [bg_color,  "#03A9F4"]
+        # Custom color map
+        ccmap = LinearSegmentedColormap.from_list("custom", clist)
+
+        # Plot heatmap
+
+        pitch.heatmap(bin_statistic,
+                        ax=ax,
+                        cmap=ccmap,
+                        # edgecolor='#03191E',
+                        alpha=0.5,
+                        zorder=0,
+                        # linestyle=(0, (5,10)),
+                        vmax=max,
+                        shading="auto"
+                            )
+    
+        # Add average defensive action line
+        pdf = df[df["team"] == team]
+        pdf = pdf[pdf["event"].isin(stat)]
+        
+        x, y = standard.transform(pdf.x, pdf.y)
+        if i > 0:
+            x, y = pitch.flip_side(x, y, [True]*len(x))
+
+        d = np.sqrt(np.power(x - 0, 2) + np.power(y - 40, 2)).mean()
+
+        pitch.lines(
+            xstart=d,
+            ystart=-3,
+            xend=d,
+            yend=83,
+            ax=ax,
+            color='white',
+            linestyles='dashed',
+            alpha=1,
+            linewidth=2.5,
+            clip_on=False,
+            zorder=-1,
+        )
 
 if __name__ == "__main__":
     
@@ -236,7 +379,7 @@ if __name__ == "__main__":
     df = read_data(fp, get_qualifiers())
     
     # Draw the pitch
-    pitch = VerticalPitch(line_color='white')
+    pitch = Pitch(line_color='white', linewidth=0.5)
     
     # Show the plot
     fig = plt.figure(layout='constrained', figsize=(9.5, 4))
@@ -247,27 +390,44 @@ if __name__ == "__main__":
     ax_annotate = fig.add_axes([0, -0.16, 1, 0.125], anchor='NW', zorder=1)
     ax_annotate.axis('off')
 
-    subfigs = fig.subfigures(1, 3, wspace=0.07, width_ratios=[1, 1, 1])
+    subfigs = fig.subfigures(1, 2, wspace=0.07, width_ratios=[1, 1])
 
-    axsLeft = subfigs[0].subplots(1, 1)
-    axsMiddle = subfigs[1].subplots(1, 1)
-    axsRight = subfigs[2].subplots(1, 1)
+    ax1, ax3 = subfigs[0].subplots(2, 1) #1st team are odd axes
+    ax2, ax4 = subfigs[1].subplots(2, 1) #2nd team are even axes
     
-    ax_title.text(x=0.5, y=0.5, s="Hello World")
+    axs = {df.team.unique()[0]: [ax1, ax3],
+           df.team.unique()[1]: [ax2, ax4]}
     
-    pitch.draw(ax=axsLeft)
-    pitch.draw(ax=axsMiddle)
-    pitch.draw(ax=axsRight)
+    teams = df.team.unique()
+    ax_title.text(x=0.5, y=0.5,
+                  s=f"{teams[0]} vs. {teams[1]}",
+                  c="white",
+                  ha="center",
+                  fontsize=22
+                  )
+    
+    # Draw pitches on all the empty axes
+    pitch.draw(ax=ax1)
+    pitch.draw(ax=ax2)
+    pitch.draw(ax=ax3)
+    pitch.draw(ax=ax4)
 
-    axsLeft.set_facecolor(bg_color)
-    axsMiddle.set_facecolor(bg_color)
-    axsRight.set_facecolor(bg_color)
+    # Change axes background color
+    ax1.set_facecolor(bg_color)
+    ax2.set_facecolor(bg_color)
+    ax3.set_facecolor(bg_color)
+    ax4.set_facecolor(bg_color)
     
-    # Passes to box
-    pdf = filter_passes_to_box(df=df, team=team)
-    add_box_passes(pitch=pitch, ax=axsLeft, df=pdf)
-    add_box_heatmap(pitch=pitch, ax=axsLeft, df=pdf)
+    # Add Passes to box
+    for i, team in enumerate(df.team.unique()):
+        ax = axs[team]
+        flip = False if i==0 else True
+        pdf = filter_passes_to_box(df=df, team=team)
+        add_box_heatmap(pitch=pitch, ax=ax[0], df=pdf, flip=flip)
+        add_box_passes(pitch=pitch, ax=ax[0], df=pdf, flip=flip)
+        
     
+    add_def_actions(df=df, pitch=pitch, axs=[ax3, ax4], c=bg_color)
     
     
     # ------------------------------- Save fig
